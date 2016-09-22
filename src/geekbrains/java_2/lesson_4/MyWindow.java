@@ -6,6 +6,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Time;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +43,7 @@ public class MyWindow extends JFrame {
         type_field.setBackground(Color.white);
 
 
-        //
+        //Слушатель на кнопку нтер для переноса вводимого текста в поле чата
         type_field.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,10 +51,21 @@ public class MyWindow extends JFrame {
                 String str = type_field.getText();
                 chat_area.append((date_format.format(new Date()))+ " : " + str +  "\n" );
 
+                //Пишем лог чата в файл
+                PrintWriter pw = null;
+                try {
+                    pw = new PrintWriter(new FileWriter("C://java//java2//java_2_lesson_4_ChatWindow//chat_log.txt"));
+                } catch (IOException e1) {
+                    System.out.println("Log file is not fount");
+
+                }
+                pw.write((date_format.format(new Date()))+ " : " + str +  "\n" );
 
 
             }
         });
+
+
 
         setVisible(true);
 
