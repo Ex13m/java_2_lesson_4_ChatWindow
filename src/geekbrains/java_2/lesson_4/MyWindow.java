@@ -98,12 +98,25 @@ public class MyWindow extends JFrame {
         });
 
         //Делаем панель для компановки кнопки сенд и поля ввода текста
-        JPanel jp = new JPanel();
-        jp.setLayout(new GridLayout(1,2));
-        jp.add(type_field);
-        jp.add(send_button);
-        add(jp,BorderLayout.SOUTH);
+//        JPanel jp = new JPanel();
+//        jp.setLayout(new GridLayout(1,2));
+//        jp.add(type_field);
+//        jp.add(send_button);
+//        add(jp,BorderLayout.SOUTH);
 
+        JPanel jp = new JPanel();
+        jp.setLayout(new BorderLayout());
+        jp.add(type_field,BorderLayout.CENTER);
+        jp.add(send_button,BorderLayout.EAST);
+        add(jp,BorderLayout.SOUTH);
+        type_field.setPreferredSize(new Dimension(500, 35));
+        type_field.setPreferredSize(new Dimension(70, 35));
+
+//        jp.add(type_field);
+//        jp.add(send_button);
+//        add(jp,BorderLayout.SOUTH);
+//        type_field.setPreferredSize(new Dimension(500, 35));
+//        send_button.setPreferredSize(new Dimension(70, 35));
 
 
         setVisible(true);
