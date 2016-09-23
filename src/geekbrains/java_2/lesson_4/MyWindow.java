@@ -77,7 +77,7 @@ public class MyWindow  extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SimpleDateFormat date_format = new SimpleDateFormat(" hh:mm dd.MM.yyyy ");
                 String str = type_field.getText();
-                chat_area.append((date_format.format(new Date()))+ " : " + str +  "\n" );
+                chat_area.append((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
          //проигрывание звука - не работает
          //Sound.playSound("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\WavLibraryNet_Windows10_Printcomplete.wav").join();
                 type_field.setText("");
@@ -86,7 +86,7 @@ public class MyWindow  extends JFrame {
                 try {
                     PrintStream out = new PrintStream(new FileOutputStream("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt", true), true);
 
-                    out.println((date_format.format(new Date()))+ " : " + str +  "\n" );
+                    out.println((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
                     out.close();
                 } catch (IOException e1) {
                     // !!!!!!!!!!!!!!!!!!!!!!!!!!не понял как тут чтобы срабатывало на оибку !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -105,11 +105,14 @@ public class MyWindow  extends JFrame {
 
         JPanel jp = new JPanel();
         jp.setLayout(new BorderLayout());
+        JLabel info= new JLabel("Write text "+ nickname + " : ");
         jp.add(type_field,BorderLayout.CENTER);
         jp.add(send_button,BorderLayout.EAST);
+        jp.add(info,BorderLayout.WEST);
+
         add(jp,BorderLayout.SOUTH);
-        type_field.setPreferredSize(new Dimension(500, 35));
-        type_field.setPreferredSize(new Dimension(70, 35));
+        type_field.setPreferredSize(new Dimension(500, 30));
+        send_button.setPreferredSize(new Dimension(70, 30));
 
 //        jp.add(type_field);
 //        jp.add(send_button);
