@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * Created by Ex13m on 22.09.2016.
  */
-public class MyWindow extends JFrame {
+public class MyWindow  extends JFrame {
     public MyWindow () {
 
         setTitle("Flash chat v1.0");
@@ -80,7 +80,6 @@ public class MyWindow extends JFrame {
                 chat_area.append((date_format.format(new Date()))+ " : " + str +  "\n" );
          //проигрывание звука - не работает
          //Sound.playSound("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\WavLibraryNet_Windows10_Printcomplete.wav").join();
-
                 type_field.setText("");
 
          //Пишем лог чата в файл
