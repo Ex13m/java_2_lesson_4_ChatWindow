@@ -33,7 +33,7 @@ public class MyWindow extends JFrame {
         chat_area.setBackground(Color.lightGray);
         chat_area.setEditable(false);
         chat_area.setBorder(new LineBorder(Color.darkGray,2,true));
-//        chat_area.setPreferredSize(new Dimension(600,600));
+        //chat_area.setPreferredSize(new Dimension(600,600));
 
 
         // Окно ввода
@@ -41,11 +41,11 @@ public class MyWindow extends JFrame {
         add(type_field, BorderLayout.SOUTH);
         type_field.setBackground(Color.white);
 
-
+        // Добавляем свой ник нейм .
         String nickname = JOptionPane.showInputDialog(this,"What is your nickname");
 
 
-        //Слушатель на кнопку нтер для переноса вводимого текста в поле чата
+        //Слушатель на кнопку eнтер для переноса вводимого текста в поле чата
         type_field.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,13 +64,8 @@ public class MyWindow extends JFrame {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!не понял как тут чтобы срабатывало на оибку !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     JPanel myRootPane = new JPanel();
                     JOptionPane.showMessageDialog( myRootPane, "File not found", "Error", JOptionPane.DEFAULT_OPTION );
-
                 }
-
             }
-
-
-
         });
 
         //Кнопка send для мышки
@@ -98,14 +93,11 @@ public class MyWindow extends JFrame {
                     // !!!!!!!!!!!!!!!!!!!!!!!!!!не понял как тут чтобы срабатывало на оибку !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     JPanel myRootPane = new JPanel();
                     JOptionPane.showMessageDialog( myRootPane, "File not found", "Error", JOptionPane.DEFAULT_OPTION );
-
                 }
-
             }
-
-
         });
 
+        //Делаем панель для компановки кнопки сенд и поля ввода текста
         JPanel jp = new JPanel();
         jp.setLayout(new GridLayout(1,2));
         jp.add(type_field);
@@ -115,12 +107,6 @@ public class MyWindow extends JFrame {
 
 
         setVisible(true);
-
-  }
-
-
-
-
-
+    }
 }
 
