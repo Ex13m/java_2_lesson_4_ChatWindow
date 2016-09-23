@@ -49,6 +49,7 @@ public class MyWindow  extends JFrame {
         type_field.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 SimpleDateFormat date_format = new SimpleDateFormat(" hh:mm dd.MM.yyyy ");
                 String str = type_field.getText();
                 chat_area.append((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
@@ -81,7 +82,7 @@ public class MyWindow  extends JFrame {
          //проигрывание звука - не работает
          //Sound.playSound("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\WavLibraryNet_Windows10_Printcomplete.wav").join();
                 type_field.setText("");
-
+                type_field.requestFocus();
          //Пишем лог чата в файл
                 try {
                     PrintStream out = new PrintStream(new FileOutputStream("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt", true), true);
