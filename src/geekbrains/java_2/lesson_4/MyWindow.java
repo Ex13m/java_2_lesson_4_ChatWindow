@@ -26,6 +26,8 @@ public class MyWindow extends JFrame {
     private String nickname;
     private PrintStream out;
 
+    //private String str;
+    //private String log_path ;
     public MyWindow() {
 
         //Main window settings
@@ -81,15 +83,6 @@ public class MyWindow extends JFrame {
             }
         });
 
-        //initialisation stream for file writing
-        try {
-            String log_path = "c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt";
-            out = new PrintStream(new FileOutputStream(log_path, true), true);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         //Arrangement for SEND mouse button and  for type field
         JPanel jp = new JPanel();
         jp.setLayout(new BorderLayout());
@@ -119,12 +112,20 @@ public class MyWindow extends JFrame {
     //Method for transition text from type_field to chat_area & Writing chat log in logfile
     public void sendMSG() {
 
+        String str = type_field.getText();
         //Transition text from type_field to chat_area
-        chat_area.append((date_format.format(new Date())) + " " + nickname + ": " + type_field.getText() + "\n");
+        chat_area.append((date_format.format(new Date())) + " " + nickname + ": " + str + "\n");
         type_field.setText("");
 
         //Writing chat log in logfile
-        out.println((date_format.format(new Date())) + " " + nickname + ": " + type_field.getText() + "\n");
+        try {
+            String log_path = "c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt";
+            out = new PrintStream(new FileOutputStream(log_path, true), true);
+            out.println((date_format.format(new Date())) + " " + nickname + ": " + str + "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //set cursor o type field on active mode
         type_field.grabFocus();
