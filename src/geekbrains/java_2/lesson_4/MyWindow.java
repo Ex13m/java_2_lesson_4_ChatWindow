@@ -1,11 +1,15 @@
 package geekbrains.java_2.lesson_4;
-import javax.sound.sampled.*;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,116 +17,118 @@ import java.util.Date;
 /**
  * Created by Ex13m on 22.09.2016.
  */
-public class MyWindow  extends JFrame {
-    public MyWindow () {
+public class MyWindow extends JFrame {
 
+    //Class fields for methods , look down)) ;
+    private JTextArea chat_area;
+    private JTextField type_field;
+    private SimpleDateFormat date_format;
+    private String nickname;
+    private PrintStream out;
+
+    public MyWindow() {
+
+        //Main window settings
         setTitle("Flash chat v1.0");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        setLocation(1250,100);
-        setSize(600,700);
+        setLocation(1250, 100);
+        setSize(600, 700);
         setBackground(Color.gray);
         setLayout(new BorderLayout());
+        //set Date format for insert
+        date_format = new SimpleDateFormat(" HH:mm dd.MM.yyyy ");
 
-        //Окно чата
-        JTextArea chat_area = new JTextArea();
+
+        //Chat area
+        chat_area = new JTextArea();
         chat_area.setLineWrap(true);
-        //chat_area.setCaretPosition(chat_area.getDocument().getLength());
-        JScrollPane chat_scroll= new JScrollPane(chat_area);
-        add(chat_scroll,BorderLayout.CENTER);
+        JScrollPane chat_scroll = new JScrollPane(chat_area);
+        add(chat_scroll, BorderLayout.CENTER);
         chat_area.setBackground(Color.lightGray);
         chat_area.setEditable(false);
-        chat_area.setBorder(new LineBorder(Color.darkGray,2,true));
-        //chat_area.setPreferredSize(new Dimension(600,600));
+        chat_area.setBorder(new LineBorder(Color.darkGray, 2, true));
 
-
-        // Окно ввода
-        JTextField type_field= new JTextField();
+        //Text type field
+        type_field = new JTextField();
         add(type_field, BorderLayout.SOUTH);
         type_field.setBackground(Color.white);
 
-        // Добавляем свой ник нейм .
-        String nickname = JOptionPane.showInputDialog(this,"What is your nickname");
 
-
-        //Слушатель на кнопку eнтер для переноса вводимого текста в поле чата
-        type_field.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                SimpleDateFormat date_format = new SimpleDateFormat(" hh:mm dd.MM.yyyy ");
-                String str = type_field.getText();
-                chat_area.append((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
-                type_field.setText("");
-
-        //Пишем лог чата в файл
-                try {
-                    PrintStream out = new PrintStream(new FileOutputStream("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt", true), true);
-
-                    out.println((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
-                    out.close();
-                } catch (IOException e1) {
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!не понял как тут чтобы срабатывало на оибку !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    JPanel myRootPane = new JPanel();
-                    JOptionPane.showMessageDialog( myRootPane, "File not found", "Error", JOptionPane.DEFAULT_OPTION );
-                }
-            }
-        });
-
-        //Кнопка send для мышки
+        //SEND mouse button
         JButton send_button = new JButton("Send");
-        add(send_button,BorderLayout.EAST);
+        add(send_button, BorderLayout.EAST);
 
+        // Add nick name
+        nickname = JOptionPane.showInputDialog(this, "What is your nickname");
+
+
+        //Mouse button listener
         send_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat date_format = new SimpleDateFormat(" hh:mm dd.MM.yyyy ");
-                String str = type_field.getText();
-                chat_area.append((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
-         //проигрывание звука - не работает
-         //Sound.playSound("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\WavLibraryNet_Windows10_Printcomplete.wav").join();
-                type_field.setText("");
-                type_field.requestFocus();
-         //Пишем лог чата в файл
-                try {
-                    PrintStream out = new PrintStream(new FileOutputStream("c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt", true), true);
-
-                    out.println((date_format.format(new Date()))+ " " + nickname+": " + str +  "\n" );
-                    out.close();
-                } catch (IOException e1) {
-                    // !!!!!!!!!!!!!!!!!!!!!!!!!!не понял как тут чтобы срабатывало на оибку !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    JPanel myRootPane = new JPanel();
-                    JOptionPane.showMessageDialog( myRootPane, "File not found", "Error", JOptionPane.DEFAULT_OPTION );
-                }
+                //Transition text from type_field to chat_area + Logfile writer
+                sendMSG();
             }
         });
 
-        //Делаем панель для компановки кнопки сенд и поля ввода текста
-//        JPanel jp = new JPanel();
-//        jp.setLayout(new GridLayout(1,2));
-//        jp.add(type_field);
-//        jp.add(send_button);
-//        add(jp,BorderLayout.SOUTH);
+        //ENTER key listener
+        type_field.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Transition text from type_field to chat_area + Logfile writer
+                sendMSG();
+            }
+        });
 
+        //initialisation stream for file writing
+        try {
+            String log_path = "c:\\java\\java2\\java_2_lesson_4_ChatWindow\\chat_log.txt";
+            out = new PrintStream(new FileOutputStream(log_path, true), true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Arrangement for SEND mouse button and  for type field
         JPanel jp = new JPanel();
         jp.setLayout(new BorderLayout());
-        JLabel info= new JLabel("Write text "+ nickname + " : ");
-        jp.add(type_field,BorderLayout.CENTER);
-        jp.add(send_button,BorderLayout.EAST);
-        jp.add(info,BorderLayout.WEST);
-
-        add(jp,BorderLayout.SOUTH);
+        JLabel info = new JLabel("Write text " + nickname + " : ");
+        jp.add(type_field, BorderLayout.CENTER);
+        jp.add(send_button, BorderLayout.EAST);
+        jp.add(info, BorderLayout.WEST);
+        add(jp, BorderLayout.SOUTH);
         type_field.setPreferredSize(new Dimension(500, 30));
         send_button.setPreferredSize(new Dimension(70, 30));
 
-//        jp.add(type_field);
-//        jp.add(send_button);
-//        add(jp,BorderLayout.SOUTH);
-//        type_field.setPreferredSize(new Dimension(500, 35));
-//        send_button.setPreferredSize(new Dimension(70, 35));
+
+        //Close all streams of file_writer when program end
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                out.close();
+            }
+        });
 
 
+        // set window parameter visible = true
         setVisible(true);
     }
+
+    //Method for transition text from type_field to chat_area & Writing chat log in logfile
+    public void sendMSG() {
+
+        //Transition text from type_field to chat_area
+        chat_area.append((date_format.format(new Date())) + " " + nickname + ": " + type_field.getText() + "\n");
+        type_field.setText("");
+
+        //Writing chat log in logfile
+        out.println((date_format.format(new Date())) + " " + nickname + ": " + type_field.getText() + "\n");
+
+        //set cursor o type field on active mode
+        type_field.grabFocus();
+    }
+
 }
 
